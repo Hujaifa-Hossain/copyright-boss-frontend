@@ -10,36 +10,38 @@ import Loading from '../shared/Loading';
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const [signInWithGoogle, gLoading, gError] = useSignInWithGoogle(auth);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   if (loading || gLoading) {
-    return <Loading/>
-  }
+    return <Loading />
+  };
+
   let signInError;
 
   if (error || gError) {
     signInError = <p className='text-red-600 text-sm my-3'>{error?.message || gError?.message}</p>
-  }
+  };
 
   const onSubmit = data => {
     console.log(data)
     signInWithEmailAndPassword(data.mail, data.pass)
+    reset()
   };
-
+  console.log(user);
   return (
     <div className='flex justify-center my-6'>
       <div className="card w-80 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className=" text-xl font-bold">Welcome back!</h2>
-          
+          <h2 className="text-center text-xl font-bold mb-2">Hello, Welcome back!</h2>
+
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
 
-              <label className="label">
+              {/* <label className="label">
                 <span className="label-text">Email</span>
-              </label>
+              </label> */}
 
               <input type="email" placeholder="Enter your email"
                 className="input input-bordered w-full max-w-xs"
@@ -60,11 +62,11 @@ const Login = () => {
                 </span>
               </label>
 
-              <label className="label">
+              {/* <label className="label">
                 <span className="label-text">Password</span>
-              </label>
+              </label> */}
 
-              <input type="password" placeholder="Enter your password"
+              <input type="password" placeholder="Enter a password"
                 className="input input-bordered w-full max-w-xs"
                 {...register("pass", {
                   required: {
@@ -83,13 +85,13 @@ const Login = () => {
                 </span>
               </label>
 
-            {signInError}
+              {signInError}
             </div>
             <div>
-              <input className="btn btn-dark w-full max-w-xs" type='submit' value='Login' />
+              <input className="btn btn-dark w-full max-w-xs" type='submit' value='Log In' />
             </div>
           </form>
-          
+
         </div>
         <p className='text-center'>New to Copyright Boss? <Link className='text-primary' to='/register'>Sign up now!</Link></p>
 
