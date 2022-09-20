@@ -29,7 +29,7 @@ const Register = () => {
   const onSubmit = async data => {
     console.log(data)
     await createUserWithEmailAndPassword(data.mail, data.pass);
-    await updateProfile({ displayName: data.name })
+    await updateProfile({ displayName: data.name, photoURL: data.photo })
     reset()
     navigate('/login')
   };
@@ -42,10 +42,9 @@ const Register = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
-
-              {/* <label className="label">
-                <span className="label-text">Name</span>
-              </label> */}
+              <input type="file" placeholder="Your photo"
+                className="my-2"
+                {...register("photo", )} />
 
               <input type="text" placeholder="Your full name"
                 className="input input-bordered w-full max-w-xs"
@@ -61,10 +60,6 @@ const Register = () => {
                   {errors?.name?.type === 'required' && <p className='text-red-600'>{errors.name.message}</p>}
                 </span>
               </label>
-
-              {/* <label className="label">
-                <span className="label-text">Email</span>
-              </label> */}
 
               <input type="email" placeholder="Enter your email"
                 className="input input-bordered w-full max-w-xs"
@@ -84,10 +79,6 @@ const Register = () => {
                   {errors?.mail?.type === 'pattern' && <p className='text-red-600'>{errors.mail.message}</p>}
                 </span>
               </label>
-
-              {/* <label className="label">
-                <span className="label-text">Password</span>
-              </label> */}
 
               <input type="password" placeholder="Enter a password"
                 className="input input-bordered w-full max-w-xs"

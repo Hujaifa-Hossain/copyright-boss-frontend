@@ -47,10 +47,6 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
 
-              {/* <label className="label">
-                <span className="label-text">Email</span>
-              </label> */}
-
               <input type="email" placeholder="Enter your email"
                 className="input input-bordered w-full max-w-xs"
                 {...register("mail", {
@@ -69,10 +65,6 @@ const Login = () => {
                   {errors?.mail?.type === 'pattern' && <p className='text-red-600'>{errors.mail.message}</p>}
                 </span>
               </label>
-
-              {/* <label className="label">
-                <span className="label-text">Password</span>
-              </label> */}
 
               <input type="password" placeholder="Enter a password"
                 className="input input-bordered w-full max-w-xs"
