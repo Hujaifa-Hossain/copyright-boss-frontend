@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useSignInWithGoogle, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../firebase/firebase.config';
@@ -10,8 +10,12 @@ import Loading from '../shared/Loading';
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
-  const [signInWithGoogle, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  let from = location.state?.from?.pathname || '/';
 
   if (loading || gLoading) {
     return <Loading />
@@ -23,9 +27,13 @@ const Login = () => {
     signInError = <p className='text-red-600 text-sm my-3'>{error?.message || gError?.message}</p>
   };
 
-  const onSubmit = data => {
+  if(user || gUser){
+    navigate(from, {replace: true})
+  }
+
+  const onSubmit = async data => {
     console.log(data)
-    signInWithEmailAndPassword(data.mail, data.pass)
+    await signInWithEmailAndPassword(data.mail, data.pass)
     reset()
   };
   console.log(user);
@@ -33,7 +41,7 @@ const Login = () => {
     <div className='flex justify-center my-6'>
       <div className="card w-80 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-center text-xl font-bold mb-2">Hello, Welcome back!</h2>
+          <h2 className="text-center font-bold mb-2">Hello, Welcome back!</h2>
 
 
           <form onSubmit={handleSubmit(onSubmit)}>

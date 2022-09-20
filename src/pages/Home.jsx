@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import HomeBanner from '../components/Home/HomeBanner';
-import HomeFeatures from '../components/Home/HomeFeatures';
+import Videos from '../components/Home/Videos';
 
 const Home = () => {
   return (
     <div>
-      <HomeBanner/>
-      <HomeFeatures/>
+      <Videos/>
     </div>
   );
 };
