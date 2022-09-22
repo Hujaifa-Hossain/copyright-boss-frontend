@@ -1,20 +1,26 @@
 import React from 'react';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../firebase/firebase.config';
 import Facebook from '../assets/facebook.png';
 import Google from '../assets/google.png';
 import Loading from '../shared/Loading';
+import useToken from '../hooks/useToken';
 
 
 const Register = () => {
-  const [createUserWithEmailAndPassword, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-  const [signInWithGoogle, gLoading, gError] = useSignInWithGoogle(auth);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [token] = useToken(user || gUser);
 
   const navigate = useNavigate()
+
+  if (token) {
+    navigate('/')
+  }
 
   if (loading || gLoading || updating) {
     return <Loading />
@@ -29,9 +35,8 @@ const Register = () => {
   const onSubmit = async data => {
     console.log(data)
     await createUserWithEmailAndPassword(data.mail, data.pass);
-    await updateProfile({ displayName: data.name, photoURL: data.photo })
+    await updateProfile({ displayName: data.name })
     reset()
-    navigate('/login')
   };
 
   return (
@@ -42,9 +47,6 @@ const Register = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
-              <input type="file" placeholder="Your photo"
-                className="my-2"
-                {...register("photo", )} />
 
               <input type="text" placeholder="Your full name"
                 className="input input-bordered w-full max-w-xs"
