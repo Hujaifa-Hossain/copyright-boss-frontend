@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useSignInWithGoogle, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -6,30 +6,34 @@ import auth from '../firebase/firebase.config';
 import Facebook from '../assets/facebook.png';
 import Google from '../assets/google.png';
 import Loading from '../shared/Loading';
+import useToken from '../hooks/useToken';
 
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  
+  const [token] = useToken(user || gUser);
 
+  let signInError;
   const navigate = useNavigate()
   const location = useLocation()
   let from = location.state?.from?.pathname || '/';
 
-  if (loading || gLoading) {
-    return <Loading />
-  };
-
-  let signInError;
+  useEffect(() => {
+    if (token) {
+      navigate(from, { replace: true })
+    }
+  }, [token, from, navigate])
 
   if (error || gError) {
     signInError = <p className='text-red-600 text-sm my-3'>{error?.message || gError?.message}</p>
   };
 
-  if(user || gUser){
-    navigate(from, {replace: true})
-  }
+  if (loading || gLoading) {
+    return <Loading />
+  };
 
   const onSubmit = async data => {
     console.log(data)

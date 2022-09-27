@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { HiOutlineUserCircle } from 'react-icons/hi'
+import { HiOutlineUserCircle, HiOutlineMenuAlt2 } from 'react-icons/hi'
 import { MdOutlineNaturePeople, MdOutlineVideoLibrary, MdLogout } from 'react-icons/md'
 import { BiVideoPlus } from 'react-icons/bi'
 import { TbHeartHandshake } from 'react-icons/tb'
@@ -13,22 +13,23 @@ const Header = () => {
 
   const logout = () => {
     signOut(auth);
+    localStorage.removeItem('accessToken')
   };
   return (
     <div>
       <div className="navbar bg-base-100">
+
         <div className="navbar-start">
-          <ul>
-            <li className='btn btn-ghost btn-circle'>
-              <Link to='/'> <MdOutlineVideoLibrary />
-              </Link>
-            </li>
-          </ul>
-          
+          <Link className='btn btn-ghost btn-circle' to='/'> <MdOutlineVideoLibrary />
+          </Link>
         </div>
+
+        <label htmlFor="dashboard-drawer" className="btn btn-primary drawer-button lg:hidden"><HiOutlineMenuAlt2/></label>
+
         <div className="navbar-center">
           <Link to='/' className="normal-case text-1xl font-bold">Copyright Boss</Link>
         </div>
+
         <div className="navbar-end">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -38,12 +39,14 @@ const Header = () => {
             </label>
             <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
 
-              {user  && <li>
+              {user && <li>
                 <p className="justify-between">
-                 Hi {user?.displayName}
-                  <span className="badge"><TbHeartHandshake/></span>
+                  Hi {user?.displayName}
+                  <span className="badge"><TbHeartHandshake /></span>
                 </p>
               </li>}
+
+              <li><Link to='dashboard'><BiVideoPlus />Dashboard</Link></li>
 
               <li><Link to='create'><BiVideoPlus />Create</Link></li>
 
