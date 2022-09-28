@@ -7,6 +7,7 @@ import Create from "./components/Create";
 import RequireAuth from "./shared/RequireAuth";
 import Dashboard from "./pages/Dashboard";
 import Users from "./components/Users";
+import RequireAdmin from "./shared/RequireAdmin";
 
 function App() {
   return (
@@ -22,13 +23,13 @@ function App() {
         <Route
           path="dashboard"
           element={
-            <RequireAuth>
+            <RequireAdmin>
               <Dashboard />
-            </RequireAuth>
+            </RequireAdmin>
           }
         >
-          {/* <Route index element={<Home />} /> */}
-          <Route index element={<Create />} />
+          {/* <Route index element={<Dashboard />} /> */}
+          <Route path="create" element={<Create />} />
           <Route path="users" element={<Users />} />
         </Route>
       </Routes>

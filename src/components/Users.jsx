@@ -23,12 +23,12 @@ const Users = () => {
             <tr>
               <th></th>
               <th>Email</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Status</th>
+              <th>X</th>
             </tr>
           </thead>
           <tbody>
-            {users?.map(user => <UserRow key={user._id} user={user} refetch={refetch} />)}
+            {users && users?.map(user => <UserRow key={user._id} user={user} refetch={refetch} />)}
           </tbody>
         </table>
       </div>
