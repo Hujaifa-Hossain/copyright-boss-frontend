@@ -5,8 +5,7 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 import {
   MdOutlineNaturePeople, MdOutlineVideoLibrary,
   MdLogout, MdOutlineDashboardCustomize
-} from 'react-icons/md'
-import { BiVideoPlus } from 'react-icons/bi'
+} from 'react-icons/md';
 import { TbHeartHandshake } from 'react-icons/tb'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../firebase/firebase.config';
@@ -51,8 +50,6 @@ const Header = () => {
               </li>}
 
               {admin && <li><Link to='dashboard'><MdOutlineDashboardCustomize />Dashboard</Link></li>}
-
-              
 
               {user && user ? <li><button onClick={logout}><MdLogout />Log out</button></li> : <li><Link to='login'><MdOutlineNaturePeople />Log in</Link></li>}
             </ul>

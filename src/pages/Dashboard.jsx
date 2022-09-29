@@ -18,15 +18,17 @@ const Dashboard = () => {
         </div>
         <div className="drawer-side">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
-          <ul className="menu p-4 overflow-y-auto w-56 bg-base-100 text-base-content">
 
-            <li className='items-end'>
-              <label htmlFor="dashboard-drawer" className="lg:hidden btn btn-dark text-white btn-sm btn-circle">✕</label>
+
+          <ul className="menu p-2 overflow-y-auto w-56 bg-base-100 text-base-content">
+
+            <li className='items-end p-1'>
+              <label htmlFor="dashboard-drawer" className="md:hidden btn btn-dark text-white btn-sm btn-circle">✕</label>
             </li>
 
             <li><Link to='/dashboard'><MdOutlineDashboardCustomize />Dashboard</Link></li>
             <li><Link to='create'><BiVideoPlus />Create</Link></li>
-            <li><Link to='users'><BiUser/>Users</Link></li>
+            <li><Link to='users'><BiUser />Users</Link></li>
           </ul>
 
         </div>
